@@ -1,103 +1,107 @@
 # 🍽️ 简易点餐系统
 
-一个超简单的点餐小程序，无需数据库，用飞书表格存储数据。
+一个超简单的点餐小程序，GitHub Pages 托管，无需服务器。
 
-## 📁 系统组成
+## 🔗 访问链接
 
-### 1. 飞书多维表格（数据存储）
+**点餐页面**: https://qqdwzl.github.io/ordering-app/  
+**管理后台**: https://qqdwzl.github.io/ordering-app/admin.html
 
-**菜单表**：https://ncnhcka6rbxm.feishu.cn/base/Dksab1gRia0IMIs82wBcueoTnYn
-- 存储菜品信息（名称、价格、分类、是否在售）
+## 📊 飞书表格
 
-**订单表**：https://ncnhcka6rbxm.feishu.cn/base/IA4Ubm6sqaGEY1sCNNvcXiwxnPc
-- 存储订单信息（订单号、菜品详情、总金额、下单时间、支付状态）
+**菜单表**: https://ncnhcka6rbxm.feishu.cn/base/Dksab1gRia0IMIs82wBcueoTnYn  
+**订单表**: https://ncnhcka6rbxm.feishu.cn/base/IA4Ubm6sqaGEY1sCNNvcXiwxnPc
 
-### 2. 前端页面
+## ✨ 功能
 
-`index.html` - 单页面应用，手机浏览器打开即可使用
+### 点餐页面
+- ✅ 分类菜单展示
+- ✅ 一键加入购物车
+- ✅ 实时计算总价
+- ✅ 模拟支付流程
+- ✅ 生成订单号
 
-## 🚀 快速使用
+### 管理后台
+- ✅ 订单列表查看
+- ✅ 订单详情查看
+- ✅ 状态筛选（待支付/已支付/已完成）
+- ✅ 日期筛选
+- ✅ 搜索订单
+- ✅ 标记完成/取消订单
+- ✅ 导出 Excel/CSV
 
-### 方式一：本地测试（最简单）
+## 📱 使用说明
 
-1. 直接在浏览器打开 `index.html`
-2. 点餐、下单、支付（模拟）
-3. 订单保存在浏览器本地存储
+### 顾客点餐
+1. 打开点餐页面
+2. 选择菜品加入购物车
+3. 点击"去结算"
+4. 确认订单并支付
+5. 获得订单号
 
-### 方式二：部署上线
+### 店员管理
+1. 打开管理后台
+2. 查看新订单
+3. 制作完成后标记"已完成"
+4. 可导出订单报表
 
-**选项 A：用飞书云空间托管**
-1. 把 `index.html` 上传到飞书云空间
-2. 获取分享链接
-3. 生成二维码供顾客扫描
+## 💾 数据存储
 
-**选项 B：用 GitHub Pages**
-1. 上传到 GitHub 仓库
-2. 开启 GitHub Pages
-3. 获得免费 HTTPS 链接
+**当前模式**: 本地存储（订单保存在顾客浏览器）
 
-**选项 C：用微信托管**
-1. 上传到任意支持静态页面的托管服务
-2. 生成小程序码
-
-## 📱 功能特点
-
-✅ 分类展示菜品
-✅ 一键加入购物车
-✅ 实时计算总价
-✅ 模拟支付流程
-✅ 生成订单号
-✅ 响应式设计（手机适配）
+**升级到云端存储**:
+1. 部署后端服务（如 Vercel）
+2. 配置飞书 API 凭证
+3. 修改 `index.html` 中的 `API_BASE` 为后端地址
+4. 订单自动同步到飞书表格
 
 ## 🔧 自定义菜单
 
-编辑 `index.html` 中的 `menuData` 数组：
+编辑 `index.html` 中的 `localMenuData`:
 
 ```javascript
-const menuData = [
+const localMenuData = [
     { category: '主食', items: [
         { name: '你的菜品', price: 99 }
     ]}
 ];
 ```
 
-## 📊 查看订单
+## 📦 文件结构
 
-### 临时方案
-订单保存在浏览器 localStorage，可在浏览器控制台查看：
-```javascript
-JSON.parse(localStorage.getItem('orders'))
+```
+ordering-app/
+├── index.html          # 点餐页面
+├── admin.html          # 管理后台
+├── server.js           # 后端服务（云端存储用）
+├── package.json        # Node.js 依赖
+├── vercel.json         # Vercel 部署配置
+├── README.md           # 使用说明
+└── API_SETUP.md        # 飞书 API 配置指南
 ```
 
-### 正式方案（需要接入飞书 API）
+## 🚀 部署
 
-创建一个简单的后端服务来：
-1. 从菜单表读取菜品
-2. 接收订单并提交到订单表
+### GitHub Pages（当前）
+代码已自动部署到：
+https://qqdwzl.github.io/ordering-app/
 
-## 🎨 界面预览
+### Vercel（云端存储）
+1. 访问 https://vercel.com/new
+2. 导入 GitHub 仓库
+3. 配置环境变量：
+   - `FEISHU_APP_TOKEN`
+   - `FEISHU_APP_SECRET`
+4. 部署完成
 
-- 紫色渐变头部
-- 白色卡片式菜单
-- 底部购物车栏
-- 订单确认弹窗
-- 支付成功页面
+## 📝 更新日志
 
-## 📝 下一步升级
-
-1. **接入飞书 API** - 实时读取菜单、提交订单
-2. **添加菜品图片** - 让菜单更吸引人
-3. **桌号选择** - 方便堂食
-4. **后厨打印** - 自动打印订单
-5. **真实支付** - 对接微信支付/支付宝
-
-## 💡 技术栈
-
-- 纯 HTML/CSS/JavaScript（无框架）
-- 飞书多维表格（数据存储）
-- localStorage（临时存储）
+- **v1.2** - 支持云端存储配置，飞书表格集成
+- **v1.1** - 添加订单管理后台
+- **v1.0** - 初始版本，基础点餐功能
 
 ---
 
-**创建时间**: 2026-04-06
-**版本**: 1.0 (最简版)
+**创建时间**: 2026-04-06  
+**版本**: 1.2  
+**许可**: MIT
