@@ -1,12 +1,16 @@
 {
   "version": 2,
-  "builds": [{ "src": "*.html", "use": "@vercel/static" }],
+  "builds": [
+    { "src": "package.json", "use": "@vercel/node" },
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "api/**/*.js", "use": "@vercel/node" }
+  ],
   "env": {
-    "FEISHU_APP_TOKEN": "@feishu-app-token",
-    "FEISHU_APP_SECRET": "@feishu-app-secret"
+    "FEISHU_APP_TOKEN": "cli_a959e64357229bdb",
+    "FEISHU_APP_SECRET": "JK2KpEEkwJwqQwjcDtGu6crZmEljMYMs"
   },
   "routes": [
-    { "src": "/api/(.*)", "dest": "/server.js" },
+    { "src": "/api/(.*)", "dest": "/api/index.js" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }

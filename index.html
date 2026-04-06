@@ -84,13 +84,8 @@
 
     <script>
         // ===== 配置区域 =====
-        // 如需云端存储，填写你的后端 API 地址
-        // 例如：'https://your-app.vercel.app/api'
-        // 留空则使用本地存储（订单存在浏览器）
-        const API_BASE = '';
-        
-        // 飞书表格链接（直接查看）
-        const FEISHU_ORDER_URL = 'https://ncnhcka6rbxm.feishu.cn/base/IA4Ubm6sqaGEY1sCNNvcXiwxnPc';
+        // 云端 API 地址（Vercel 部署后自动获取）
+        const API_BASE = window.location.hostname !== 'localhost' && window.location.hostname !== 'qqdwzl.github.io' ? window.location.origin + '/api' : '';
         // ===================
 
         // 本地菜单数据
