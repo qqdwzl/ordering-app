@@ -45,7 +45,7 @@
 <body>
     <div class="header">
         <h1>🍽️ 简易点餐</h1>
-        <span class="cloud-badge" id="cloudBadge">☁️ 云端存储</span>
+        <span class="cloud-badge" id="cloudBadge">📱 本地存储</span>
         <a href="admin.html">📋 管理后台</a>
     </div>
 
@@ -75,7 +75,7 @@
             <div class="success-msg">
                 <div class="success-icon">✓</div>
                 <h2>支付成功！</h2>
-                <p>订单已同步到云端</p>
+                <p id="successMsg">订单已保存</p>
                 <div class="order-number">订单号：<span id="orderNumber"></span></div>
                 <button class="close-btn" onclick="closeSuccess()">返回首页</button>
             </div>
@@ -84,19 +84,16 @@
 
     <script>
         // ===== 配置区域 =====
-        // Vercel 部署后会自动更新为实际域名
-        const API_BASE = window.location.hostname === 'localhost' ? '' : window.location.origin + '/api';
+        // 如需云端存储，填写你的后端 API 地址
+        // 例如：'https://your-app.vercel.app/api'
+        // 留空则使用本地存储（订单存在浏览器）
+        const API_BASE = '';
         
-        // 飞书表格信息
-        const FEISHU_CONFIG = {
-            menuAppToken: 'Dksab1gRia0IMIs82wBcueoTnYn',
-            menuTableId: 'tblD10SLC5ii6jKG',
-            orderAppToken: 'IA4Ubm6sqaGEY1sCNNvcXiwxnPc',
-            orderTableId: 'tblSsCpLNnXs4C9c'
-        };
+        // 飞书表格链接（直接查看）
+        const FEISHU_ORDER_URL = 'https://ncnhcka6rbxm.feishu.cn/base/IA4Ubm6sqaGEY1sCNNvcXiwxnPc';
         // ===================
 
-        // 本地菜单数据（API 不可用时使用）
+        // 本地菜单数据
         const localMenuData = [
             { category: '主食', items: [
                 { name: '招牌牛肉面', price: 28 },
@@ -121,12 +118,15 @@
         // 更新云端存储状态显示
         function updateCloudBadge() {
             const badge = document.getElementById('cloudBadge');
+            const successMsg = document.getElementById('successMsg');
             if (API_BASE) {
                 badge.textContent = '☁️ 云端存储';
                 badge.style.background = '#27ae60';
+                successMsg.textContent = '订单已同步到云端';
             } else {
                 badge.textContent = '📱 本地存储';
                 badge.style.background = '#95a5a6';
+                successMsg.textContent = '订单已保存（本地）';
             }
         }
 
@@ -243,7 +243,7 @@
                     orderNumber = data.orderNumber;
                 } else {
                     // 本地存储
-                    await new Promise(r => setTimeout(r, 500));
+                    await new Promise(r => setTimeout(r, 300));
                     orderNumber = 'ORD' + Date.now();
                     
                     const order = { orderNumber, items: [...cart], total, time: new Date().toISOString(), status: '已支付' };
