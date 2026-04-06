@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "builds": [{ "src": "*.html", "use": "@vercel/static" }],
+  "env": {
+    "FEISHU_APP_TOKEN": "@feishu-app-token",
+    "FEISHU_APP_SECRET": "@feishu-app-secret"
+  },
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/server.js" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}

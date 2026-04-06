@@ -84,11 +84,10 @@
 
     <script>
         // ===== 配置区域 =====
-        // 如需云端存储，填写你的后端地址（Vercel 部署后的 URL）
-        // 留空则使用本地存储（订单存在浏览器）
-        const API_BASE = ''; // 例如：'https://your-app.vercel.app/api'
+        // Vercel 部署后会自动更新为实际域名
+        const API_BASE = window.location.hostname === 'localhost' ? '' : window.location.origin + '/api';
         
-        // 飞书表格信息（已配置好）
+        // 飞书表格信息
         const FEISHU_CONFIG = {
             menuAppToken: 'Dksab1gRia0IMIs82wBcueoTnYn',
             menuTableId: 'tblD10SLC5ii6jKG',
@@ -137,13 +136,13 @@
                 try {
                     const res = await fetch(`${API_BASE}/menu`);
                     const data = await res.json();
-                    if (data.success) {
+                    if (data.success && Object.keys(data.data).length > 0) {
                         menuData = Object.entries(data.data).map(([category, items]) => ({
                             category,
                             items: items.map(i => ({ name: i.name, price: i.price }))
                         }));
                     } else {
-                        throw new Error(data.error);
+                        throw new Error(data.error || '无数据');
                     }
                 } catch (err) {
                     console.error('加载菜单失败，使用本地数据:', err);
